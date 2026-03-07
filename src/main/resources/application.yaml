@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: spring
+  config:
+    import: ${SPRING_CONFIG_IMPORT:optional:configserver:https://spring.nowstart.org/config}
+
+---
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:localdb;MODE=MariaDB;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+    bus:
+      enabled: false
+  cache:
+    type: none
+  data:
+    redis:
+      repositories:
+        enabled: false
+  rabbitmq:
+    dynamic: false
+    listener:
+      simple:
+        auto-startup: false
+      direct:
+        auto-startup: false
+
+eureka:
+  client:
+    enabled: false
+
+management:
+  health:
+    redis:
+      enabled: false
+    rabbit:
+      enabled: false

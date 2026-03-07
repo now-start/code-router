@@ -1,0 +1,87 @@
+@baseUrl = http://localhost:8080
+@model = codex
+@loginId = replace-with-login-id
+
+### Account status
+GET {{baseUrl}}/admin/codex/account
+Accept: application/json
+
+### Start device login
+# Open the auth_url from the response in a browser and complete the device flow.
+POST {{baseUrl}}/admin/codex/account/login
+Accept: application/json
+
+> {% client.global.set("loginId", response.body.login_id); %}
+
+### Poll login status
+# If your HTTP client does not support client.global.set, replace {{loginId}} manually.
+GET {{baseUrl}}/admin/codex/account/login/{{loginId}}
+Accept: application/json
+
+### List models
+GET {{baseUrl}}/v1/models
+Accept: application/json
+
+### Chat completion
+POST {{baseUrl}}/v1/chat/completions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "model": "{{model}}",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Reply briefly."
+    },
+    {
+      "role": "user",
+      "content": "Say hello."
+    }
+  ]
+}
+
+### Chat completion with text-part array content
+POST {{baseUrl}}/v1/chat/completions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "model": "{{model}}",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Explain app-server in one paragraph."
+        }
+      ]
+    }
+  ]
+}
+
+### Streaming chat completion
+POST {{baseUrl}}/v1/chat/completions
+Content-Type: application/json
+Accept: text/event-stream
+
+{
+  "model": "{{model}}",
+  "stream": true,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Explain app-server in one paragraph."
+    }
+  ]
+}
+
+### Cancel a pending login
+DELETE {{baseUrl}}/admin/codex/account/login/{{loginId}}
+Accept: application/json
+
+### Logout shared Codex session
+DELETE {{baseUrl}}/admin/codex/account/session
+Accept: application/json
+

@@ -50,3 +50,37 @@ management:
       enabled: false
     rabbit:
       enabled: false
+
+coderouter:
+  model-alias: codex
+  codex:
+    command: ${CODEX_BIN:codex}
+    arguments:
+      - app-server
+      - --listen
+      - stdio://
+    process-working-directory: ${CODE_ROUTER_PROCESS_WORKDIR:${user.dir}}
+    workdir: ${CODE_ROUTER_WORKDIR:${user.dir}}
+    model: ${CODE_ROUTER_CODEX_MODEL:codex}
+    startup-timeout: 10s
+    request-timeout: 5m
+    sandbox-policy:
+      type: readOnly
+      access:
+        type: fullAccess
+      networkAccess: false
+    approval-policy: never
+    ephemeral: true
+    personality: none
+    base-instructions: |
+      You are exposed through an OpenAI-compatible chat API.
+      Answer as a text-only assistant.
+      Do not assume the caller can see local files, shell output, or internal logs.
+    developer-instructions: |
+      Never call tools.
+      Never read, write, or modify files.
+      Never execute shell commands.
+      Return plain assistant text only.
+  queue:
+    capacity: 8
+    max-wait: 30s

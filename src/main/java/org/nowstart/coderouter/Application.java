@@ -1,4 +1,4 @@
-package org.nowstart.spring;
+package org.nowstart.coderouter;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;

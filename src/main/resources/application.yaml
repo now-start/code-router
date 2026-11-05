@@ -2,7 +2,7 @@ spring:
   application:
     name: code-router
   config:
-    import: ${SPRING_CONFIG_IMPORT:optional:configserver:https://spring.nowstart.org/config}
+    import: ${SPRING_CONFIG_IMPORT:configserver:https://spring.nowstart.org/config}
 
 ---
 

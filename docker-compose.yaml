@@ -10,7 +10,7 @@ services:
       - "9090:9090"   # Prometheus
       - "16686:16686" # Jaeger UI
   app:
-    image: code-router:0.0.0
+    image: code-router:0.0.1
     ports:
       - "8080:8080"
     environment:

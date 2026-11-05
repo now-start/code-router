@@ -65,6 +65,7 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+    environment 'SPRING_CONFIG_IMPORT', ''
 }
 
 bootBuildImage {
